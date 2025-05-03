@@ -16,7 +16,6 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     void Awake()
     {
-        // Singleton pattern
         if (Instance == null)
         {
             Instance = this;
@@ -40,15 +39,13 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
     public void OnInitializationComplete()
     {
         _isInitialized = true;
-        Debug.Log("Unity Ads initialization complete.");
-
-        // Load banner ad
+        Debug.Log("Unity Ads se inicializo exitosamente.");
         LoadBanner();
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
     {
-        Debug.Log($"Unity Ads Initialization Failed: {error} - {message}");
+        Debug.Log($"Unity Ads no se inicializo correctamente: {error} - {message}");
     }
 
     public void LoadBanner()
@@ -88,32 +85,29 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
         Advertisement.Show(_androidRewardedId, this);
     }
 
-    // Implement IUnityAdsLoadListener interface methods
     public void OnUnityAdsAdLoaded(string placementId)
     {
-        Debug.Log($"Ad Loaded: {placementId}");
+        Debug.Log($"Ad cargado exitosamente: {placementId}");
     }
 
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
     {
-        Debug.LogError($"Error loading Ad Unit {placementId}: {error} - {message}");
+        Debug.LogError($"Error al cargar el AD {placementId}: {error} - {message}");
     }
 
-    // Implement IUnityAdsShowListener interface methods
     public void OnUnityAdsShowClick(string placementId) { }
 
     public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState showCompletionState)
     {
         if (placementId.Equals(_androidRewardedId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
-            // Reward the player
             PlayerPrefs.SetInt("ExtraTimeReward", _rewardSeconds);
         }
     }
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
-        Debug.LogError($"Error showing Ad Unit {placementId}: {error} - {message}");
+        Debug.LogError($"Error al mostrar el AD {placementId}: {error} - {message}");
     }
 
     public void OnUnityAdsShowStart(string placementId) { }

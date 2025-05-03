@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text clickCountText;
     [SerializeField] private TMP_Text highScoreText;
     [SerializeField] private Button clickButton;
+    [SerializeField] private GameObject creditsPanel;
+    [SerializeField] private Button rewardedAdButton;
+
 
     private int clickCount = 0;
     private float gameTime = 10f;
@@ -33,10 +36,19 @@ public class GameManager : MonoBehaviour
 
         gameTime = 10f;
 
+        if (PlayerPrefs.HasKey("ExtraTimeReward"))
+        {
+            int extraTime = PlayerPrefs.GetInt("ExtraTimeReward");
+            gameTime += extraTime;
+            PlayerPrefs.DeleteKey("ExtraTimeReward");
+        }
+
         isGameActive = true;
+        rewardedAdButton.gameObject.SetActive(false);
 
         StartCoroutine(CountdownTimer());
     }
+
 
     public void ButtonClicked()
     {
@@ -84,10 +96,19 @@ public class GameManager : MonoBehaviour
                 AdManager.Instance.ShowInterstitial();
             }
         }
+        else
+        {
+            rewardedAdButton.gameObject.SetActive(true);
+        }
     }
+
 
     public void OpenCredits()
     {
-        SceneManager.LoadScene("Credits");
+        creditsPanel.SetActive(true);
+    }
+    public void CloseCredits()
+    {
+        creditsPanel.SetActive(false);
     }
 }
