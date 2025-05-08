@@ -8,7 +8,7 @@ public class NotificationManager : MonoBehaviour
     public static NotificationManager Instance { get; private set; }
 
     private string _channelId = "clicker_channel";
-    private string _studentName = "Player"; // Replace with actual student name logic
+    private string _studentName = "Matias Pulido";
 
     void Awake()
     {
@@ -41,10 +41,8 @@ public class NotificationManager : MonoBehaviour
     public void ScheduleReturnNotification()
     {
 #if UNITY_ANDROID
-        // Cancel any existing notification
         AndroidNotificationCenter.CancelAllDisplayedNotifications();
 
-        // Create a new notification
         var notification = new AndroidNotification()
         {
             Title = "¡Vuelve a jugar!",
@@ -54,7 +52,6 @@ public class NotificationManager : MonoBehaviour
             LargeIcon = "icon_large"
         };
 
-        // Send the notification
         AndroidNotificationCenter.SendNotification(notification, _channelId);
 #endif
     }

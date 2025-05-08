@@ -39,8 +39,10 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
     public void OnInitializationComplete()
     {
         _isInitialized = true;
-        Debug.Log("Unity Ads se inicializo exitosamente.");
+        Debug.Log("Unity Ads initialization complete.");
+
         LoadBanner();
+        LoadRewardedAd();
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
@@ -102,6 +104,7 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
         if (placementId.Equals(_androidRewardedId) && showCompletionState.Equals(UnityAdsShowCompletionState.COMPLETED))
         {
             PlayerPrefs.SetInt("ExtraTimeReward", _rewardSeconds);
+            LoadRewardedAd();
         }
     }
 
