@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
         {
             yield return new WaitForSeconds(0.1f);
             gameTime -= 0.1f;
+            gameTime = Mathf.Max(gameTime, 0);
             UpdateTimerDisplay();
         }
 
@@ -78,7 +79,7 @@ public class GameManager : MonoBehaviour
     {
         int seconds = Mathf.FloorToInt(gameTime);
         int milliseconds = Mathf.FloorToInt((gameTime - seconds) * 100);
-        timerText.text = "Tiempo: " + string.Format("{0:00}:{1:00}", seconds, milliseconds);
+        timerText.text = "Time: " + string.Format("{0:00}:{1:00}", seconds, milliseconds);
     }
 
     private void EndGame()
@@ -91,18 +92,34 @@ public class GameManager : MonoBehaviour
             highScore = clickCount;
             PlayerPrefs.SetInt("HighScore", highScore);
             highScoreText.text = "High score: " + highScore;
+            
             if (Application.platform == RuntimePlatform.Android)
             {
+#if UNITY_ANDROID
                 AdManager.Instance.ShowInterstitial();
+#endif
             }
         }
         else
         {
             rewardedAdButton.gameObject.SetActive(true);
         }
+#if UNITY_ANDROID
+        NotificationManager.Instance.ScheduleReturnNotification();
+#endif
     }
+#if UNITY_ANDROID
+    public void RequestReward()
+    {
+        
+        AdManager.Instance.ShowRewardedAd(OnRewardGranted);
+    }
+#endif
 
-
+    private void OnRewardGranted()
+    {
+        StartGame();
+    }
     public void OpenCredits()
     {
         creditsPanel.SetActive(true);

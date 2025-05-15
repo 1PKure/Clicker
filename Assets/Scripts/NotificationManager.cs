@@ -1,7 +1,7 @@
-using UnityEngine;
 #if UNITY_ANDROID
+using UnityEngine;
 using Unity.Notifications.Android;
-#endif
+
 
 public class NotificationManager : MonoBehaviour
 {
@@ -48,8 +48,6 @@ public class NotificationManager : MonoBehaviour
             Title = "¡Vuelve a jugar!",
             Text = _studentName + " jugó por última vez hace 10 minutos",
             FireTime = System.DateTime.Now.AddMinutes(10),
-            SmallIcon = "icon_small",
-            LargeIcon = "icon_large"
         };
 
         AndroidNotificationCenter.SendNotification(notification, _channelId);
@@ -61,3 +59,4 @@ public class NotificationManager : MonoBehaviour
         _studentName = name;
     }
 }
+#endif

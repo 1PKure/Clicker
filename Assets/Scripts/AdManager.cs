@@ -1,3 +1,4 @@
+#if UNITY_ANDROID
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -6,7 +7,7 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
     public static AdManager Instance { get; private set; }
 
     [SerializeField] private string _androidGameId;
-    [SerializeField] private bool _testMode = true;
+    [SerializeField] private bool _testMode = false;
     [SerializeField] private string _androidBannerId = "Banner_Android";
     [SerializeField] private string _androidInterstitialId = "Interstitial_Android";
     [SerializeField] private string _androidRewardedId = "Rewarded_Android";
@@ -80,10 +81,13 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
         Advertisement.Load(_androidRewardedId, this);
     }
 
-    public void ShowRewardedAd()
+    private System.Action _onRewardComplete;
+
+    public void ShowRewardedAd(System.Action onComplete)
     {
         if (!_isInitialized) return;
 
+        _onRewardComplete = onComplete;
         Advertisement.Show(_androidRewardedId, this);
     }
 
@@ -105,8 +109,12 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
         {
             PlayerPrefs.SetInt("ExtraTimeReward", _rewardSeconds);
             LoadRewardedAd();
+
+            _onRewardComplete?.Invoke();
+            _onRewardComplete = null;
         }
     }
+
 
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
@@ -115,3 +123,4 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void OnUnityAdsShowStart(string placementId) { }
 }
+#endif
