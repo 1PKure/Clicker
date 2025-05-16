@@ -1,0 +1,1 @@
+D:\Image Campus 2C\Portabilidad y Optimizacion\Clicker\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\50152b2s\obj\arm64-v8a

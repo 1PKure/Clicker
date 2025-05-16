@@ -1,0 +1,3 @@
+D:\Image Campus 2C\Portabilidad y Optimizacion\Clicker\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+D:\Image Campus 2C\Portabilidad y Optimizacion\Clicker\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\FramePacing\CMakeLists.txt
+D:\Image Campus 2C\Portabilidad y Optimizacion\Clicker\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

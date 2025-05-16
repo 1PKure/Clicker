@@ -1,0 +1,8 @@
+D:/Image Campus 2C/Portabilidad y Optimizacion/Clicker/.utmp/RelWithDebInfo/50152b2s/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/Image Campus 2C/Portabilidad y Optimizacion/Clicker/.utmp/RelWithDebInfo/50152b2s/arm64-v8a/CMakeFiles/rebuild_cache.dir
+D:/Image Campus 2C/Portabilidad y Optimizacion/Clicker/.utmp/RelWithDebInfo/50152b2s/arm64-v8a/GameActivity/CMakeFiles/game.dir
+D:/Image Campus 2C/Portabilidad y Optimizacion/Clicker/.utmp/RelWithDebInfo/50152b2s/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+D:/Image Campus 2C/Portabilidad y Optimizacion/Clicker/.utmp/RelWithDebInfo/50152b2s/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
+D:/Image Campus 2C/Portabilidad y Optimizacion/Clicker/.utmp/RelWithDebInfo/50152b2s/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+D:/Image Campus 2C/Portabilidad y Optimizacion/Clicker/.utmp/RelWithDebInfo/50152b2s/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+D:/Image Campus 2C/Portabilidad y Optimizacion/Clicker/.utmp/RelWithDebInfo/50152b2s/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir
