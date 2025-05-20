@@ -105,14 +105,17 @@ public class GameManager : MonoBehaviour
             rewardedAdButton.gameObject.SetActive(true);
         }
 #if UNITY_ANDROID
-        NotificationManager.Instance.ScheduleReturnNotification();
+
+        if (NotificationManager.Instance != null)
+            NotificationManager.Instance.ScheduleReturnNotification();
 #endif
     }
 #if UNITY_ANDROID
     public void RequestReward()
     {
-        
-        AdManager.Instance.ShowRewardedAd(OnRewardGranted);
+
+        if (AdManager.Instance != null)
+            AdManager.Instance.ShowRewardedAd(OnRewardGranted);
     }
 #endif
 

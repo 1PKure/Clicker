@@ -1039,8 +1039,6 @@ MonoBehaviour:
   _androidBannerId: Banner_Android
   _androidInterstitialId: Interstitial_Android
   _androidRewardedId: Rewarded_Android
-  _isInitialized: 0
-  _rewardSeconds: 2
 --- !u!4 &905029829
 Transform:
   m_ObjectHideFlags: 0
@@ -1550,8 +1548,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1646,8 +1644,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e71794af840a43e4289ac41c9395adbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _channelId: clicker_channel
-  _studentName: Matias Pulido
 --- !u!1 &1490210973
 GameObject:
   m_ObjectHideFlags: 0
@@ -1684,8 +1680,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 56, y: 24.4001}
-  m_SizeDelta: {x: 1153.4719, y: 556.2984}
+  m_AnchoredPosition: {x: 0.0000095367, y: 0.000022888}
+  m_SizeDelta: {x: 1009.052, y: 514.493}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1490210975
 MonoBehaviour:
