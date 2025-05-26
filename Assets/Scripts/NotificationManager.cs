@@ -1,17 +1,17 @@
-#if UNITY_ANDROID
+#if UNITY_ANDROID && UNITY_EDITOR
 using UnityEngine;
 using Unity.Notifications.Android;
+using UnityEngine.Android;
 
 
 public class NotificationManager : MonoBehaviour
 {
     public static NotificationManager Instance { get; private set; }
-
     private string _channelId = "clicker_channel";
     private string _studentName = "Matias Pulido";
-
     void Awake()
     {
+
         if (Instance == null)
         {
             Instance = this;
@@ -23,10 +23,41 @@ public class NotificationManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    void Start()
+    {
+        if (AndroidVersion >= 33 && !Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+        {
+            Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
+        }
+    }
+    int AndroidVersion
+    {
+        get
+        {
+            using (var version = new AndroidJavaClass("android.os.Build$VERSION"))
+            {
+                return version.GetStatic<int>("SDK_INT");
+            }
+        }
+    }
 
+    internal void PermissionCallbacks_PermissionDeniedAndDontAskAgain(string permissionName)
+    {
+        Debug.Log($"{permissionName} PermissionDeniedAndDontAskAgain");
+    }
+
+    internal void PermissionCallbacks_PermissionGranted(string permissionName)
+    {
+        Debug.Log($"{permissionName} PermissionCallbacks_PermissionGranted");
+    }
+
+    internal void PermissionCallbacks_PermissionDenied(string permissionName)
+    {
+        Debug.Log($"{permissionName} PermissionCallbacks_PermissionDenied");
+    }
     private void InitializeNotifications()
     {
-#if UNITY_ANDROID
+
         var channel = new AndroidNotificationChannel()
         {
             Id = _channelId,
@@ -35,12 +66,12 @@ public class NotificationManager : MonoBehaviour
             Description = "Notifications for the Clicker game"
         };
         AndroidNotificationCenter.RegisterNotificationChannel(channel);
-#endif
+
     }
 
     public void ScheduleReturnNotification()
     {
-#if UNITY_ANDROID
+
         AndroidNotificationCenter.CancelAllDisplayedNotifications();
 
         var notification = new AndroidNotification()
@@ -51,7 +82,7 @@ public class NotificationManager : MonoBehaviour
         };
 
         AndroidNotificationCenter.SendNotification(notification, _channelId);
-#endif
+
     }
 
     public void SetStudentName(string name)

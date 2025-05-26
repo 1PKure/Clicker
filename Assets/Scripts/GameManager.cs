@@ -21,6 +21,11 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+#if UNITY_WEBGL
+        if (rewardedAdButton != null)
+            rewardedAdButton.SetActive(false);
+#endif
+        rewardedAdButton.gameObject.SetActive(false);
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         highScoreText.text = "High score: " + highScore;
 
@@ -84,6 +89,9 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
+#if UNITY_ANDROID
+        rewardedAdButton.gameObject.SetActive(true);
+#endif
         isGameActive = false;
         clickButton.interactable = true;
 

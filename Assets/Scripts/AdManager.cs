@@ -31,19 +31,18 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void InitializeAds()
     {
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            Advertisement.Initialize(_androidGameId, _testMode, this);
-        }
+#if UNITY_EDITOR || UNITY_ANDROID
+        Advertisement.Initialize(_androidGameId, _testMode, this);
+#endif
     }
 
     public void OnInitializationComplete()
     {
         _isInitialized = true;
-        Debug.Log("Unity Ads initialization complete.");
-
         LoadBanner();
         LoadRewardedAd();
+        LoadInterstitial();
+        Debug.Log("Los ads se inicializaron correctamente.");
     }
 
     public void OnInitializationFailed(UnityAdsInitializationError error, string message)
@@ -85,7 +84,6 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void ShowRewardedAd(System.Action onComplete)
     {
-        if (!_isInitialized) return;
 
         _onRewardComplete = onComplete;
         Advertisement.Show(_androidRewardedId, this);
