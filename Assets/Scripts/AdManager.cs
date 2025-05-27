@@ -14,6 +14,7 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     private bool _isInitialized = false;
     private int _rewardSeconds = 2;
+    private bool _isRewardedReady = false;
 
     void Awake()
     {
@@ -68,7 +69,11 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void ShowInterstitial()
     {
-        if (!_isInitialized) return;
+        if (!_isInitialized || !_isRewardedReady)
+        {
+            Debug.LogWarning("El Interstitial Ad no está listo todavía.");
+            return;
+        }
 
         Advertisement.Show(_androidInterstitialId, this);
     }
@@ -84,9 +89,15 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void ShowRewardedAd(System.Action onComplete)
     {
+        if (!_isInitialized || !_isRewardedReady)
+        {
+            Debug.LogWarning("El Rewarded Ad no está listo todavía.");
+            return;
+        }
 
         _onRewardComplete = onComplete;
         Advertisement.Show(_androidRewardedId, this);
+        _isRewardedReady = false;
     }
 
     public void OnUnityAdsAdLoaded(string placementId)
@@ -112,8 +123,10 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
             _onRewardComplete = null;
         }
     }
-
-
+    public bool IsRewardedAdReady()
+    {
+        return _isRewardedReady;
+    }
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
         Debug.LogError($"Error al mostrar el AD {placementId}: {error} - {message}");

@@ -90,7 +90,10 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
 #if UNITY_ANDROID
-        rewardedAdButton.gameObject.SetActive(true);
+        if (AdManager.Instance != null && AdManager.Instance.IsRewardedAdReady())
+                rewardedAdButton.gameObject.SetActive(true);
+            else
+                rewardedAdButton.gameObject.SetActive(false);
 #endif
         isGameActive = false;
         clickButton.interactable = true;

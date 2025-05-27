@@ -1,4 +1,4 @@
-#if UNITY_ANDROID && UNITY_EDITOR
+
 using UnityEngine;
 using Unity.Notifications.Android;
 using UnityEngine.Android;
@@ -90,4 +90,3 @@ public class NotificationManager : MonoBehaviour
         _studentName = name;
     }
 }
-#endif
