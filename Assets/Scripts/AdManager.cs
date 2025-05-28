@@ -1,4 +1,3 @@
-#if UNITY_ANDROID
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -13,10 +12,14 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
     [SerializeField] private string _androidRewardedId = "Rewarded_Android";
 
     private bool _isInitialized = false;
-    private int _rewardSeconds = 2;
     private bool _isRewardedReady = false;
+    private int _rewardSeconds = 2;
+    private bool _isInterstitialReady = false;
 
-    void Awake()
+    public bool IsRewardedAdReady() => _isRewardedReady;
+    public bool IsInterstitialAdReady() => _isInterstitialReady;
+
+    void Start()
     {
         if (Instance == null)
         {
@@ -29,12 +32,11 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
             Destroy(gameObject);
         }
     }
-
     public void InitializeAds()
     {
-#if UNITY_EDITOR || UNITY_ANDROID
+//#if UNITY_EDITOR || UNITY_ANDROID
         Advertisement.Initialize(_androidGameId, _testMode, this);
-#endif
+//#endif
     }
 
     public void OnInitializationComplete()
@@ -69,13 +71,14 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void ShowInterstitial()
     {
-        if (!_isInitialized || !_isRewardedReady)
+        if (!_isInitialized || !_isInterstitialReady)
         {
             Debug.LogWarning("El Interstitial Ad no está listo todavía.");
             return;
         }
 
         Advertisement.Show(_androidInterstitialId, this);
+        _isInterstitialReady = false;
     }
 
     public void LoadRewardedAd()
@@ -103,11 +106,21 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
     public void OnUnityAdsAdLoaded(string placementId)
     {
         Debug.Log($"Ad cargado exitosamente: {placementId}");
+        if (placementId == _androidRewardedId)
+            _isRewardedReady = true;
+
+        if (placementId == _androidInterstitialId)
+            _isInterstitialReady = true;
     }
 
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
     {
         Debug.LogError($"Error al cargar el AD {placementId}: {error} - {message}");
+        if (placementId == _androidRewardedId)
+            _isRewardedReady = false;
+
+        if (placementId == _androidInterstitialId)
+            _isInterstitialReady = false;
     }
 
     public void OnUnityAdsShowClick(string placementId) { }
@@ -123,10 +136,6 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
             _onRewardComplete = null;
         }
     }
-    public bool IsRewardedAdReady()
-    {
-        return _isRewardedReady;
-    }
     public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
     {
         Debug.LogError($"Error al mostrar el AD {placementId}: {error} - {message}");
@@ -134,4 +143,3 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     public void OnUnityAdsShowStart(string placementId) { }
 }
-#endif

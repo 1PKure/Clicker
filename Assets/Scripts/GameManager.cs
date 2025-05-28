@@ -89,12 +89,12 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
-#if UNITY_ANDROID
+//#if UNITY_ANDROID
         if (AdManager.Instance != null && AdManager.Instance.IsRewardedAdReady())
-                rewardedAdButton.gameObject.SetActive(true);
-            else
+            rewardedAdButton.gameObject.SetActive(true);
+        else
                 rewardedAdButton.gameObject.SetActive(false);
-#endif
+//#endif
         isGameActive = false;
         clickButton.interactable = true;
 
@@ -106,29 +106,27 @@ public class GameManager : MonoBehaviour
             
             if (Application.platform == RuntimePlatform.Android)
             {
-#if UNITY_ANDROID
                 AdManager.Instance.ShowInterstitial();
-#endif
             }
         }
         else
         {
             rewardedAdButton.gameObject.SetActive(true);
         }
-#if UNITY_ANDROID
+//#if UNITY_ANDROID
 
         if (NotificationManager.Instance != null)
             NotificationManager.Instance.ScheduleReturnNotification();
-#endif
+//#endif
     }
-#if UNITY_ANDROID
+//#if UNITY_ANDROID
     public void RequestReward()
     {
 
         if (AdManager.Instance != null)
             AdManager.Instance.ShowRewardedAd(OnRewardGranted);
     }
-#endif
+//#endif
 
     private void OnRewardGranted()
     {

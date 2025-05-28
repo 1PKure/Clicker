@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using Unity.Notifications.Android;
 using UnityEngine.Android;
@@ -9,9 +8,9 @@ public class NotificationManager : MonoBehaviour
     public static NotificationManager Instance { get; private set; }
     private string _channelId = "clicker_channel";
     private string _studentName = "Matias Pulido";
-    void Awake()
-    {
 
+    void Start()
+    {
         if (Instance == null)
         {
             Instance = this;
@@ -22,9 +21,6 @@ public class NotificationManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-    void Start()
-    {
         if (AndroidVersion >= 33 && !Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
         {
             Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");

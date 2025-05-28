@@ -395,8 +395,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: 34.345}
-  m_SizeDelta: {x: 862.74, y: 294.02}
+  m_AnchoredPosition: {x: 8.423, y: -21}
+  m_SizeDelta: {x: 973.946, y: 365.559}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &125609601
 MonoBehaviour:
@@ -421,8 +421,8 @@ MonoBehaviour:
   m_text: Juego creado y desarrollado por Matias Pulido, para la materia de Portabilidad
     y Optimizacion
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: cd3eba2f0fbc11b459cea396a8f0f98f, type: 2}
-  m_sharedMaterial: {fileID: -1946627437974331357, guid: cd3eba2f0fbc11b459cea396a8f0f98f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8477ad92b1e139140b63f8a35455943f, type: 2}
+  m_sharedMaterial: {fileID: -2853740799381534102, guid: 8477ad92b1e139140b63f8a35455943f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -453,7 +453,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 16
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -25.265656, y: -30.404205, z: -30.19278, w: -104.99475}
+  m_margin: {x: -7.045532, y: -30.404205, z: -11.488525, w: -7.2843933}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1680,8 +1680,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 10.922981, y: 49.20349}
-  m_SizeDelta: {x: 943.517, y: 478.083}
+  m_AnchoredPosition: {x: -2.08, y: 42.702}
+  m_SizeDelta: {x: 1021.539, y: 465.079}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1490210975
 MonoBehaviour:
