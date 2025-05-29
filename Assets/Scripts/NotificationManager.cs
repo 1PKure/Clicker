@@ -9,8 +9,12 @@ public class NotificationManager : MonoBehaviour
     private string _channelId = "clicker_channel";
     private string _studentName = "Matias Pulido";
 
-    void Start()
+    private void Awake()
     {
+        if (AndroidVersion >= 33 && !Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+        {
+            Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
+        }
         if (Instance == null)
         {
             Instance = this;
@@ -20,10 +24,6 @@ public class NotificationManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-        if (AndroidVersion >= 33 && !Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
-        {
-            Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
         }
     }
     int AndroidVersion
@@ -67,7 +67,11 @@ public class NotificationManager : MonoBehaviour
 
     public void ScheduleReturnNotification()
     {
-
+        if (AndroidVersion >= 33 && !Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+        {
+            Debug.LogWarning("No se puede enviar la notificación: permiso no concedido.");
+            return;
+        }
         AndroidNotificationCenter.CancelAllDisplayedNotifications();
 
         var notification = new AndroidNotification()

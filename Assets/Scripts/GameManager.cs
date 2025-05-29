@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
             
             if (Application.platform == RuntimePlatform.Android)
             {
-                AdManager.Instance.ShowInterstitial();
+                AdManager.Instance.ShowInterstitialOnMainThread();
             }
         }
         else
@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
 
         if (AdManager.Instance != null)
-            AdManager.Instance.ShowRewardedAd(OnRewardGranted);
+            AdManager.Instance.ShowRewardedAdOnMainThread(OnRewardGranted);
     }
 //#endif
 

@@ -1035,7 +1035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _androidGameId: 5846457
-  _testMode: 1
+  _testMode: 0
   _androidBannerId: Banner_Android
   _androidInterstitialId: Interstitial_Android
   _androidRewardedId: Rewarded_Android

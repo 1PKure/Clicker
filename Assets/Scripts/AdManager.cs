@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -25,20 +26,24 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            InitializeAds();
+            InitializeAdsOnMainThread();
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    public void InitializeAds()
+    public void InitializeAdsOnMainThread()
     {
-//#if UNITY_EDITOR || UNITY_ANDROID
-        Advertisement.Initialize(_androidGameId, _testMode, this);
-//#endif
+        StartCoroutine(InitializeAdsCoroutine());
     }
 
+    private IEnumerator InitializeAdsCoroutine()
+    {
+        yield return null; 
+        Advertisement.Initialize(_androidGameId, _testMode, this);
+        Debug.Log("Unity Ads inicializado en el hilo principal.");
+    }
     public void OnInitializationComplete()
     {
         _isInitialized = true;
@@ -69,16 +74,24 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
         Advertisement.Load(_androidInterstitialId, this);
     }
 
-    public void ShowInterstitial()
+    public void ShowInterstitialOnMainThread()
     {
-        if (!_isInitialized || !_isInterstitialReady)
-        {
-            Debug.LogWarning("El Interstitial Ad no está listo todavía.");
-            return;
-        }
+        StartCoroutine(ShowInterstitialCoroutine());
+    }
 
-        Advertisement.Show(_androidInterstitialId, this);
-        _isInterstitialReady = false;
+    private IEnumerator ShowInterstitialCoroutine()
+    {
+        yield return null;
+        if (_isInitialized && _isInterstitialReady)
+        {
+            Advertisement.Show(_androidInterstitialId, this);
+            _isInterstitialReady = false;
+            Debug.Log("Interstitial Ad mostrado en el hilo principal.");
+        }
+        else
+        {
+            Debug.LogWarning("El Interstitial Ad no está listo.");
+        }
     }
 
     public void LoadRewardedAd()
@@ -90,17 +103,25 @@ public class AdManager : MonoBehaviour, IUnityAdsInitializationListener, IUnityA
 
     private System.Action _onRewardComplete;
 
-    public void ShowRewardedAd(System.Action onComplete)
+    public void ShowRewardedAdOnMainThread(System.Action onComplete)
     {
-        if (!_isInitialized || !_isRewardedReady)
-        {
-            Debug.LogWarning("El Rewarded Ad no está listo todavía.");
-            return;
-        }
+        StartCoroutine(ShowRewardedAdCoroutine(onComplete));
+    }
 
-        _onRewardComplete = onComplete;
-        Advertisement.Show(_androidRewardedId, this);
-        _isRewardedReady = false;
+    private IEnumerator ShowRewardedAdCoroutine(System.Action onComplete)
+    {
+        yield return null;
+        if (_isInitialized && _isRewardedReady)
+        {
+            _onRewardComplete = onComplete;
+            Advertisement.Show(_androidRewardedId, this);
+            _isRewardedReady = false;
+            Debug.Log("Rewarded Ad mostrado en el hilo principal.");
+        }
+        else
+        {
+            Debug.LogWarning("El Rewarded Ad no está listo.");
+        }
     }
 
     public void OnUnityAdsAdLoaded(string placementId)
