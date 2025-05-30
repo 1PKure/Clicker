@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button clickButton;
     [SerializeField] private GameObject creditsPanel;
     [SerializeField] private Button rewardedAdButton;
+    [SerializeField] private GameObject highscorePanel;
 
 
     private int clickCount = 0;
@@ -19,13 +20,25 @@ public class GameManager : MonoBehaviour
     private bool isGameActive = false;
     private int highScore = 0;
 
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<GameManager>();
+            }
+            return _instance;
+        }
+    }
+
     void Start()
     {
 #if UNITY_WEBGL
         if (rewardedAdButton != null)
             rewardedAdButton.SetActive(false);
 #endif
-        rewardedAdButton.gameObject.SetActive(false);
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         highScoreText.text = "High score: " + highScore;
 
@@ -39,8 +52,6 @@ public class GameManager : MonoBehaviour
         clickCount = 0;
         clickCountText.text = "00 clicks";
 
-        gameTime = 10f;
-
         if (PlayerPrefs.HasKey("ExtraTimeReward"))
         {
             int extraTime = PlayerPrefs.GetInt("ExtraTimeReward");
@@ -49,8 +60,6 @@ public class GameManager : MonoBehaviour
         }
 
         isGameActive = true;
-        rewardedAdButton.gameObject.SetActive(false);
-
         StartCoroutine(CountdownTimer());
     }
 
@@ -69,6 +78,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator CountdownTimer()
     {
+        rewardedAdButton.gameObject.SetActive(false);
         while (gameTime > 0)
         {
             yield return new WaitForSeconds(0.1f);
@@ -79,7 +89,11 @@ public class GameManager : MonoBehaviour
 
         EndGame();
     }
-
+    public void AddReward()
+    {
+        gameTime += 2f;
+        UpdateTimerDisplay();
+    }
     private void UpdateTimerDisplay()
     {
         int seconds = Mathf.FloorToInt(gameTime);
@@ -89,49 +103,31 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
-//#if UNITY_ANDROID
-        if (AdManager.Instance != null && AdManager.Instance.IsRewardedAdReady())
-            rewardedAdButton.gameObject.SetActive(true);
-        else
-                rewardedAdButton.gameObject.SetActive(false);
-//#endif
+        rewardedAdButton.gameObject.SetActive(true);
         isGameActive = false;
         clickButton.interactable = true;
+        gameTime = 10f;
+        UpdateTimerDisplay();
 
-        if (clickCount > highScore)
+        if (clickCount < highScore)
+        {
+            InterstitialManager.Instance.ShowInterstitialAd();
+
+        }
+        else
         {
             highScore = clickCount;
             PlayerPrefs.SetInt("HighScore", highScore);
             highScoreText.text = "High score: " + highScore;
-            
-            if (Application.platform == RuntimePlatform.Android)
-            {
-                AdManager.Instance.ShowInterstitialOnMainThread();
-            }
+            highscorePanel.SetActive(true);
         }
-        else
-        {
-            rewardedAdButton.gameObject.SetActive(true);
-        }
-//#if UNITY_ANDROID
-
-        if (NotificationManager.Instance != null)
-            NotificationManager.Instance.ScheduleReturnNotification();
-//#endif
     }
-//#if UNITY_ANDROID
+
     public void RequestReward()
     {
-
-        if (AdManager.Instance != null)
-            AdManager.Instance.ShowRewardedAdOnMainThread(OnRewardGranted);
+        RewardAdsManager.Instance.ShowRewardedAd();
     }
-//#endif
 
-    private void OnRewardGranted()
-    {
-        StartGame();
-    }
     public void OpenCredits()
     {
         creditsPanel.SetActive(true);

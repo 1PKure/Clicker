@@ -1,92 +1,79 @@
 using UnityEngine;
+#if !UNITY_WEBGL
 using Unity.Notifications.Android;
+#endif
 using UnityEngine.Android;
+using System.Collections;
 
 
 public class NotificationManager : MonoBehaviour
 {
     public static NotificationManager Instance { get; private set; }
     private string _channelId = "clicker_channel";
-    private string _studentName = "Matias Pulido";
+    //private string _studentName = "Matias Pulido";
 
-    private void Awake()
+    void Start()
     {
-        if (AndroidVersion >= 33 && !Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
+        if (!PlayerPrefs.HasKey("NotisChanel_Created"))
         {
-            Permission.RequestUserPermission("android.permission.POST_NOTIFICATIONS");
-        }
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            InitializeNotifications();
+           
+            var group = new AndroidNotificationChannelGroup()
+            {
+                Id = "Main",
+                Name = "Main Notifications"
+            };
+            AndroidNotificationCenter.RegisterNotificationChannelGroup(group);
+
+
+            var channel = new AndroidNotificationChannel()
+            {
+                Id = _channelId,
+                Name = "Game",
+                Importance = Importance.Default,
+                Description = "Main notifications for the app.",
+                Group = group.Id
+            };
+            AndroidNotificationCenter.RegisterNotificationChannel(channel);
+
+            StartCoroutine(RequestNotificationsPermission());
+
+           
+            PlayerPrefs.SetInt("NotisChanel_Created", 1);
+            PlayerPrefs.Save();
         }
         else
         {
-            Destroy(gameObject);
-        }
-    }
-    int AndroidVersion
-    {
-        get
-        {
-            using (var version = new AndroidJavaClass("android.os.Build$VERSION"))
-            {
-                return version.GetStatic<int>("SDK_INT");
-            }
+           
+            ScheduleNotification();
         }
     }
 
-    internal void PermissionCallbacks_PermissionDeniedAndDontAskAgain(string permissionName)
+    private IEnumerator RequestNotificationsPermission()
     {
-        Debug.Log($"{permissionName} PermissionDeniedAndDontAskAgain");
+        
+        var request = new PermissionRequest();
+
+        while (request.Status == PermissionStatus.RequestPending)
+            yield return new WaitForEndOfFrame();
+
+        
+        ScheduleNotification();
     }
 
-    internal void PermissionCallbacks_PermissionGranted(string permissionName)
+    private void ScheduleNotification()
     {
-        Debug.Log($"{permissionName} PermissionCallbacks_PermissionGranted");
-    }
+        
+        AndroidNotificationCenter.CancelAllScheduledNotifications();
 
-    internal void PermissionCallbacks_PermissionDenied(string permissionName)
-    {
-        Debug.Log($"{permissionName} PermissionCallbacks_PermissionDenied");
-    }
-    private void InitializeNotifications()
-    {
-
-        var channel = new AndroidNotificationChannel()
+        
+        var notification10Minutes = new AndroidNotification()
         {
-            Id = _channelId,
-            Name = "Game Notifications",
-            Importance = Importance.Default,
-            Description = "Notifications for the Clicker game"
-        };
-        AndroidNotificationCenter.RegisterNotificationChannel(channel);
-
-    }
-
-    public void ScheduleReturnNotification()
-    {
-        if (AndroidVersion >= 33 && !Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
-        {
-            Debug.LogWarning("No se puede enviar la notificación: permiso no concedido.");
-            return;
-        }
-        AndroidNotificationCenter.CancelAllDisplayedNotifications();
-
-        var notification = new AndroidNotification()
-        {
-            Title = "¡Vuelve a jugar!",
-            Text = _studentName + " jugó por última vez hace 10 minutos",
+            Title = "TP01 Portabilida y optimización",
+            Text = "Juego creado por Matias Pulido",
             FireTime = System.DateTime.Now.AddMinutes(10),
         };
 
-        AndroidNotificationCenter.SendNotification(notification, _channelId);
-
-    }
-
-    public void SetStudentName(string name)
-    {
-        _studentName = name;
+        
+        AndroidNotificationCenter.SendNotification(notification10Minutes, _channelId);
     }
 }
