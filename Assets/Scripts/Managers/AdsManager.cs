@@ -14,7 +14,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener {
     void Awake() {
 #if UNITY_ANDROID
         gameId = androidGameId;
-        testMode = false;
+        testMode = true;
 #elif UNITY_IOS
         gameId = iosGameId;
         testMode = false;

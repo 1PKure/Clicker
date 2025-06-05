@@ -10,7 +10,6 @@ public class NotificationManager : MonoBehaviour
 {
     public static NotificationManager Instance { get; private set; }
     private string _channelId = "clicker_channel";
-    //private string _studentName = "Matias Pulido";
 
     void Start()
     {
@@ -68,8 +67,8 @@ public class NotificationManager : MonoBehaviour
         
         var notification10Minutes = new AndroidNotification()
         {
-            Title = "TP01 Portabilida y optimización",
-            Text = "Juego creado por Matias Pulido",
+            Title = "TP01 - Portabilidad y optimización",
+            Text = "Matias Pulido, volve a jugar!",
             FireTime = System.DateTime.Now.AddMinutes(10),
         };
 
