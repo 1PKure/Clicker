@@ -1068,7 +1068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _androidUnityId: Rewarded_Android
-  _iosUnityId: Rewardedl_iOS
+  _iosUnityId: Rewarded_iOS
 --- !u!114 &905029832
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine.Advertisements;
 public class RewardAdsManager : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener {
 
     [SerializeField] private string _androidUnityId = "Rewarded_Android";
-    [SerializeField] private string _iosUnityId = "Rewardedl_iOS";
+    [SerializeField] private string _iosUnityId = "Rewarded_iOS";
 
 
     private static RewardAdsManager _instance;

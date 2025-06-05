@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f1f23061eb94677b4c099331c06f0b, type: 3}
   m_Name: pushNotificationsSettings
   m_EditorClassIdentifier: 
-  firebaseWebApiKey: 
-  firebaseProjectNumber: 
-  firebaseAppID: 
-  firebaseProjectID: 
+  firebaseWebApiKey: <color=#FFFFFFFF><mark=#3169ACAB></mark>Firebase Web API Key</color>
+  firebaseProjectNumber: Firebase Project Number
+  firebaseAppID: <color=#FFFFFFFF><mark=#3169ACAB></mark>Firebase App ID</color>
+  firebaseProjectID: Firebase Project ID
