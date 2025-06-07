@@ -12,6 +12,10 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener {
     private bool testMode = true;
 
     void Awake() {
+#if UNITY_WEBGL
+        Debug.Log("AdsManager: WebGL build, ads disabled.");
+        return;
+#endif
 #if UNITY_ANDROID
         gameId = androidGameId;
         testMode = true;

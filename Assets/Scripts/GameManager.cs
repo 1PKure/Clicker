@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     {
 #if UNITY_WEBGL
         if (rewardedAdButton != null)
-            rewardedAdButton.SetActive(false);
+            rewardedAdButton.gameObject.SetActive(false);
 #endif
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         highScoreText.text = "High score: " + highScore;
@@ -103,7 +103,11 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
-        rewardedAdButton.gameObject.SetActive(true);
+#if !UNITY_WEBGL
+    rewardedAdButton.gameObject.SetActive(true);
+#else
+        rewardedAdButton.gameObject.SetActive(false);
+#endif
         isGameActive = false;
         clickButton.interactable = true;
         gameTime = 10f;
@@ -111,7 +115,9 @@ public class GameManager : MonoBehaviour
 
         if (clickCount < highScore)
         {
-            InterstitialManager.Instance.ShowInterstitialAd();
+#if !UNITY_WEBGL
+        InterstitialManager.Instance.ShowInterstitialAd();
+#endif
 
         }
         else
@@ -125,7 +131,9 @@ public class GameManager : MonoBehaviour
 
     public void RequestReward()
     {
-        RewardAdsManager.Instance.ShowRewardedAd();
+#if !UNITY_WEBGL
+    RewardAdsManager.Instance.ShowRewardedAd();
+#endif
     }
 
     public void OpenCredits()
